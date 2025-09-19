@@ -45,9 +45,13 @@ export const DocumentUpload = ({ onFilesChange, maxFiles = 3 }: DocumentUploadPr
     // Simulate upload process
     newFiles.forEach(file => {
       setTimeout(() => {
-        setFiles(prev => prev.map(f => 
-          f.id === file.id ? { ...f, status: 'uploaded' as const } : f
-        ));
+        setFiles(prev => {
+          const updated = prev.map(f => 
+            f.id === file.id ? { ...f, status: 'uploaded' as const } : f
+          );
+          onFilesChange(updated);
+          return updated;
+        });
       }, 1000 + Math.random() * 2000);
     });
 
